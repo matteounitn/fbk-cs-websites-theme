@@ -6,12 +6,13 @@
     <ul class="publications theses">
         {% assign publicationsFromId = "" | split: "" %}
         {% for publication in source %}
-            {% assign publicationFromId = site.data.theses | where: "id", publication %}
-            {% assign publicationFromIdLabel = site.data.theses | where: "id", publication.id %}
+            {% if publication.id %}
+                {% assign publicationFromId = site.data.theses | where: "id", publication.id %}
+            {% else %}
+                {% assign publicationFromId = site.data.theses | where: "id", publication %}
+            {% endif %}
             {% if publicationFromId.size > 0 %}
                 {% assign publicationsFromId = publicationsFromId | push: publicationFromId[0] %}
-            {% elsif publicationFromIdLabel.size > 0 %}
-                {% assign publicationsFromId = publicationsFromId | push: publicationFromIdLabel[0] %}
             {% endif %}
         {% endfor %}
         {% assign publicationsSorted = publicationsFromId | sort: "year" | reverse %}
